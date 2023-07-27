@@ -42,6 +42,11 @@ export class App extends Component {
       };
     });
   };
+  getVisibleContacts = () => {
+    return this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+  };
 
   render() {
     return (
@@ -54,9 +59,7 @@ export class App extends Component {
         <h2 className={css.title}>Contacts</h2>
         <Filter updateFilter={this.updateFilter} />
         <ContactList
-          contacts={this.state.contacts.filter(contact =>
-            contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
-          )}
+          visibleContacts={this.getVisibleContacts()}
           handleDeleteItems={this.handleDeleteItems}
         />
       </div>
