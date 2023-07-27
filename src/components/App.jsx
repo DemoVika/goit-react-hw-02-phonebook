@@ -33,10 +33,14 @@ export class App extends Component {
   };
 
   handleDeleteItems = id => {
-    const updateItems = this.state.contacts.filter(
-      element => element.id !== id
-    );
-    this.setState({ contacts: updateItems });
+    this.setState(prevState => {
+      const updateItems = prevState.contacts.filter(
+        element => element.id !== id
+      );
+      return {
+        contacts: [...updateItems],
+      };
+    });
   };
 
   render() {
@@ -50,8 +54,9 @@ export class App extends Component {
         <h2 className={css.title}>Contacts</h2>
         <Filter updateFilter={this.updateFilter} />
         <ContactList
-          contacts={this.state.contacts}
-          filterString={this.state.filter}
+          contacts={this.state.contacts.filter(contact =>
+            contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+          )}
           handleDeleteItems={this.handleDeleteItems}
         />
       </div>
